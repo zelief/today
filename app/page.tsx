@@ -1,3 +1,16 @@
-export default function Home() {
-  return <h1 className="text-3xl font-bold underline bg-slate-400">Hello world!</h1>;
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+export default async function Home() {
+  const allQuestions = await prisma.question.findMany();
+
+  console.log(allQuestions);
+  return (
+    <div>
+      {allQuestions.map((q) => (
+        <p key={q.id}>{q.question}</p>
+      ))}
+    </div>
+  );
 }
