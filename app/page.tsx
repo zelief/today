@@ -7,11 +7,9 @@ export default async function Home() {
   const allQuestions = await prisma.question.findMany();
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen">
-      <div className="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex flex-col items-center p-10">
-          <Questions questions={allQuestions} />
-        </div>
+    <div className="flex flex-col justify-center items-center w-screen h-screen p-4">
+      <div className="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 p-4">
+        <Questions questions={allQuestions} />
       </div>
     </div>
   );
