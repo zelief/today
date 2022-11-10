@@ -1,16 +1,18 @@
 import { PrismaClient } from '@prisma/client';
+import { Questions } from './components/questions';
 
 const prisma = new PrismaClient();
 
 export default async function Home() {
   const allQuestions = await prisma.question.findMany();
 
-  console.log(allQuestions);
   return (
-    <div>
-      {allQuestions.map((q) => (
-        <p key={q.id}>{q.question}</p>
-      ))}
+    <div className="flex flex-col justify-center items-center w-screen h-screen">
+      <div className="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col items-center p-10">
+          <Questions questions={allQuestions} />
+        </div>
+      </div>
     </div>
   );
 }
