@@ -11,21 +11,24 @@ datasource db {
 }
 
 model Question {
-  id       Int    @id @default(autoincrement())
-  question String @db.VarChar(255)
+  id       Int      @id @default(autoincrement())
+  question String   @db.VarChar(255)
   value    Int
+  Answer   Answer[]
 }
 
 model Result {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  Answer    Answer[]
+  answers   Answer[]
   score     Int
 }
 
 model Answer {
-  id       Int     @id @default(autoincrement())
-  result   Result  @relation(fields: [resultId], references: [id])
-  yes      Boolean
-  resultId Int
+  id         Int      @id @default(autoincrement())
+  result     Result   @relation(fields: [resultId], references: [id])
+  resultId   Int
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  yes        Boolean
 }
