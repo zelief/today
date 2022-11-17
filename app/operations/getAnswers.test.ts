@@ -2,7 +2,7 @@ import { prismaMock } from '../prismaMock';
 import { describe, expect, test } from '@jest/globals';
 import { getAnswers } from './getAnswers';
 import { any } from 'jest-mock-extended';
-import { Question, Result } from '@prisma/client';
+import { Answer, Question, Result } from '@prisma/client';
 
 describe('Get answers operation', () => {
   const todayDate = new Date().toISOString().slice(0, 10);
@@ -35,11 +35,38 @@ describe('Get answers operation', () => {
       score: 0,
     };
 
+    const mockedAnswers: Answer[] = [
+      {
+        id: 1,
+        questionId: questions[0].id,
+        resultId: result.id,
+        yes: false,
+      },
+      {
+        id: 2,
+        questionId: questions[1].id,
+        resultId: result.id,
+        yes: false,
+      },
+      {
+        id: 3,
+        questionId: questions[2].id,
+        resultId: result.id,
+        yes: false,
+      },
+    ];
+
     prismaMock.result.findFirst.calledWith(any()).mockResolvedValue(null);
     prismaMock.question.findMany.calledWith().mockResolvedValue(questions);
     prismaMock.result.create.calledWith(any()).mockResolvedValue(result);
+    prismaMock.answer.findMany
+      .calledWith({
+        include: { question: { select: { question: true } } },
+        where: { resultId: result.id },
+      })
+      .mockResolvedValue(mockedAnswers);
 
-    await getAnswers();
+    const answers = await getAnswers();
 
     expect(
       prismaMock.result.findFirst.calledWith({
@@ -57,5 +84,7 @@ describe('Get answers operation', () => {
         ],
       })
     ).toBeCalledTimes(1);
+
+    expect(answers).toBe(mockedAnswers);
   });
 });
