@@ -1,12 +1,7 @@
 'use client';
 
 import { Question } from '@prisma/client';
-import {
-  ButtonHTMLAttributes,
-  HTMLAttributes,
-  MouseEventHandler,
-  useState,
-} from 'react';
+import { ButtonHTMLAttributes, useState } from 'react';
 
 export function Questions({ questions }: { questions: Question[] }) {
   const [questionIdx, setQuestionIdx] = useState(0);
