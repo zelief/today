@@ -1,4 +1,4 @@
-import prisma from '@app/db';
+import { prisma } from '@app/db';
 
 export async function getAnswers() {
   const result = await getTodayResult();
@@ -19,13 +19,13 @@ export async function getAnswers() {
 }
 
 async function getTodayResult() {
-  const todayDate = new Date().toISOString().slice(0, 10);
+  const today = new Date().setHours(0, 0, 0, 0);
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowDate = tomorrow.toISOString().slice(0, 10);
+  tomorrow.setHours(0, 0, 0, 0);
 
   return await prisma.result.findFirst({
-    where: { createdAt: { gte: todayDate, lt: tomorrowDate } },
+    where: { createdAt: { gte: new Date(today), lt: new Date(tomorrow) } },
     include: {
       answers: { include: { question: { select: { question: true } } } },
     },
