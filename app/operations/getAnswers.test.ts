@@ -56,7 +56,10 @@ describe('Get answers operation', () => {
       },
     ];
 
-    prismaMock.result.findFirst.calledWith(any()).mockResolvedValue(null);
+    prismaMock.result.findFirst
+      .calledWith(any())
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(mockedAnswers);
     prismaMock.question.findMany.calledWith().mockResolvedValue(questions);
     prismaMock.result.create.calledWith(any()).mockResolvedValue(result);
     prismaMock.answer.findMany
@@ -68,22 +71,14 @@ describe('Get answers operation', () => {
 
     const answers = await getAnswers();
 
-    expect(
-      prismaMock.result.findFirst.calledWith({
-        where: { createdAt: { gte: todayDate, lt: tomorrowDate } },
-      })
-    ).toBeCalled();
-
     expect(prismaMock.result.create).toBeCalledTimes(1);
-    expect(
-      prismaMock.answer.createMany.calledWith({
-        data: [
-          { questionId: questions[0].id, resultId: result.id, yes: false },
-          { questionId: questions[1].id, resultId: result.id, yes: false },
-          { questionId: questions[2].id, resultId: result.id, yes: false },
-        ],
-      })
-    ).toBeCalledTimes(1);
+    expect(prismaMock.answer.createMany).toBeCalledWith({
+      data: [
+        { questionId: questions[0].id, resultId: result.id, yes: false },
+        { questionId: questions[1].id, resultId: result.id, yes: false },
+        { questionId: questions[2].id, resultId: result.id, yes: false },
+      ],
+    });
 
     expect(answers).toBe(mockedAnswers);
   });
