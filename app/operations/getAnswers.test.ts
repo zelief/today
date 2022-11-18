@@ -1,8 +1,7 @@
-import { prismaMock } from '../prismaMock';
+import { prisma } from '@app/db';
+
 import { describe, expect, test } from '@jest/globals';
 import { getAnswers } from './getAnswers';
-import { any } from 'jest-mock-extended';
-import { Answer, Question, Result } from '@prisma/client';
 
 describe('Get answers operation', () => {
   const todayDate = new Date().toISOString().slice(0, 10);
@@ -11,75 +10,36 @@ describe('Get answers operation', () => {
   const tomorrowDate = tomorrow.toISOString().slice(0, 10);
 
   test('it should create new result if the result of current date is not exist', async () => {
-    const questions: Question[] = [
-      {
-        id: 1,
-        question: 'question 1',
-        value: 4,
-      },
-      {
-        id: 2,
-        question: 'question 2',
-        value: 4,
-      },
-      {
-        id: 3,
-        question: 'question 3',
-        value: 4,
-      },
-    ];
-
-    const result: Result = {
-      createdAt: new Date(),
-      id: 19,
-      score: 0,
-    };
-
-    const mockedAnswers: Answer[] = [
-      {
-        id: 1,
-        questionId: questions[0].id,
-        resultId: result.id,
-        yes: false,
-      },
-      {
-        id: 2,
-        questionId: questions[1].id,
-        resultId: result.id,
-        yes: false,
-      },
-      {
-        id: 3,
-        questionId: questions[2].id,
-        resultId: result.id,
-        yes: false,
-      },
-    ];
-
-    prismaMock.result.findFirst
-      .calledWith(any())
-      .mockResolvedValueOnce(null)
-      .mockResolvedValueOnce(mockedAnswers);
-    prismaMock.question.findMany.calledWith().mockResolvedValue(questions);
-    prismaMock.result.create.calledWith(any()).mockResolvedValue(result);
-    prismaMock.answer.findMany
-      .calledWith({
-        include: { question: { select: { question: true } } },
-        where: { resultId: result.id },
-      })
-      .mockResolvedValue(mockedAnswers);
-
-    const answers = await getAnswers();
-
-    expect(prismaMock.result.create).toBeCalledTimes(1);
-    expect(prismaMock.answer.createMany).toBeCalledWith({
+    await prisma.question.createMany({
       data: [
-        { questionId: questions[0].id, resultId: result.id, yes: false },
-        { questionId: questions[1].id, resultId: result.id, yes: false },
-        { questionId: questions[2].id, resultId: result.id, yes: false },
+        {
+          question: 'question 1',
+          value: 4,
+        },
+        {
+          question: 'question 2',
+          value: 4,
+        },
+        {
+          question: 'question 3',
+          value: 4,
+        },
       ],
     });
 
-    expect(answers).toBe(mockedAnswers);
+    await getAnswers();
+
+    const result = await prisma.result.findMany();
+    const answers = await prisma.answer.findMany();
+    const questions = await prisma.question.findMany();
+
+    expect(result).toHaveLength(1);
+    expect(answers).toHaveLength(3);
+    expect(answers[0].resultId).toBe(result[0].id);
+    expect(answers[1].resultId).toBe(result[0].id);
+    expect(answers[2].resultId).toBe(result[0].id);
+    expect(answers[0].questionId).toBe(questions[0].id);
+    expect(answers[1].questionId).toBe(questions[1].id);
+    expect(answers[2].questionId).toBe(questions[2].id);
   });
 });

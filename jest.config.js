@@ -5,4 +5,5 @@ module.exports = {
   moduleNameMapper: {
     '^@app/(.*)$': ['<rootDir>/app/$1'],
   },
+  setupFilesAfterEnv: ['<rootDir>/jest/setupTeardown.ts'],
 };
