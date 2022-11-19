@@ -38,9 +38,7 @@ describe('Get answers operation', () => {
     expect(answers[2].questionId).toBe(questions[2].id);
   });
 
-  it('should throw error if questions is empty', () => {
-    expect(async () => {
-      await getAnswers();
-    }).toThrow();
+  it('should throw error if questions is empty', async () => {
+    await expect(getAnswers()).rejects.toThrow('Question not found');
   });
 });

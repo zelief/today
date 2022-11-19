@@ -6,6 +6,11 @@ export async function getAnswers() {
   if (result == null) {
     const result = await prisma.result.create({ data: { score: 0 } });
     const questions = await prisma.question.findMany();
+
+    if (questions.length == 0) {
+      throw new Error('Question not found');
+    }
+
     await prisma.answer.createMany({
       data: questions.map((q) => ({
         resultId: result.id,
