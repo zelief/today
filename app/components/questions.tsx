@@ -25,15 +25,15 @@ export function Questions({
   };
 
   const submitAnswers = async () => {
-    const finalResult = result.answers.map((answer, index) => ({
+    const finalAnswers = result.answers.map((answer, index) => ({
       answerId: answer.id,
       yes: answers[index],
     }));
 
-    const returnVal = await fetch(`/api/result/${result.id}/update`, {
+    await fetch(`/api/result/${result.id}/update`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(finalResult),
+      body: JSON.stringify({ id: result.id, answers: finalAnswers }),
     });
   };
 
