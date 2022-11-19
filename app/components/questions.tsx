@@ -24,11 +24,29 @@ export function Questions({
     setQuestionIdx(questionIdx + 1);
   };
 
+  const submitAnswers = async () => {
+    const finalResult = result.answers.map((answer, index) => ({
+      answerId: answer.id,
+      yes: answers[index],
+    }));
+
+    const returnVal = await fetch(`/api/result/${result.id}/update`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(finalResult),
+    });
+  };
+
   if (allAnswered) {
     return (
       <div>
-        All done!
-        <br /> answers: 93%
+        <div>All done!</div>
+        <button
+          onClick={submitAnswers}
+          className="w-full py-2 items-center text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Submit
+        </button>
       </div>
     );
   }
