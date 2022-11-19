@@ -1,6 +1,6 @@
 import { prisma } from '@app/db';
 
-export async function getAnswers() {
+export async function getResult() {
   const result = await getTodayResult();
 
   if (result == null) {

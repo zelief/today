@@ -1,7 +1,7 @@
 import { prisma } from '@app/db';
 
 import { describe, expect, it } from '@jest/globals';
-import { getAnswers } from './getAnswers';
+import { getResult } from './getAnswers';
 
 describe('Get answers operation', () => {
   it('should create new result if the result of current date is not exist', async () => {
@@ -22,7 +22,7 @@ describe('Get answers operation', () => {
       ],
     });
 
-    await getAnswers();
+    await getResult();
 
     const result = await prisma.result.findMany();
     const answers = await prisma.answer.findMany();
@@ -39,7 +39,7 @@ describe('Get answers operation', () => {
   });
 
   it('should throw error if questions is empty', async () => {
-    await expect(getAnswers()).rejects.toThrow('Question not found');
+    await expect(getResult()).rejects.toThrow('Question not found');
   });
 
   it('should not create new result if the result of current date is exist', async () => {
@@ -87,7 +87,7 @@ describe('Get answers operation', () => {
       },
     });
 
-    await getAnswers();
+    await getResult();
 
     const result = await prisma.result.findMany();
     const answers = await prisma.answer.findMany();
