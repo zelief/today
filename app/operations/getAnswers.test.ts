@@ -1,15 +1,10 @@
 import { prisma } from '@app/db';
 
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { getAnswers } from './getAnswers';
 
 describe('Get answers operation', () => {
-  const todayDate = new Date().toISOString().slice(0, 10);
-  let tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowDate = tomorrow.toISOString().slice(0, 10);
-
-  test('it should create new result if the result of current date is not exist', async () => {
+  it('should create new result if the result of current date is not exist', async () => {
     await prisma.question.createMany({
       data: [
         {
@@ -41,5 +36,11 @@ describe('Get answers operation', () => {
     expect(answers[0].questionId).toBe(questions[0].id);
     expect(answers[1].questionId).toBe(questions[1].id);
     expect(answers[2].questionId).toBe(questions[2].id);
+  });
+
+  it('should throw error if questions is empty', () => {
+    expect(async () => {
+      await getAnswers();
+    }).toThrow();
   });
 });

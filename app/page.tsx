@@ -4,7 +4,10 @@ import { Questions } from './components/questions';
 const prisma = new PrismaClient();
 
 export default async function Home() {
+  const result = await prisma.result.create({ data: { score: 0 } });
   const allQuestions = await prisma.question.findMany();
+  const answers = [];
+  allQuestions.forEach
 
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen p-4">
