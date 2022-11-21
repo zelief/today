@@ -1,3 +1,5 @@
+import { prisma } from '@app/db';
+
 type NewResult = {
   id: number;
   answers: {
@@ -7,5 +9,20 @@ type NewResult = {
 };
 
 export async function updateResult(newResult: NewResult) {
-  throw new Error('Result id is invalid');
+  const result = await prisma.result.findUnique({
+    where: { id: newResult.id },
+    include: { answers: true },
+  });
+
+  if (result == null) {
+    throw new Error('Result is not found');
+  }
+
+  const validAnswerIds = result?.answers.map((answer) => answer.id);
+
+  newResult.answers.forEach((answer) => {
+    if (answer.id in validAnswerIds == false) {
+      throw new Error('Answer id is invalid');
+    }
+  });
 }
