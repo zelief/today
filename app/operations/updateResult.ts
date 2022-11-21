@@ -21,7 +21,7 @@ export async function updateResult(newResult: NewResult) {
   const validAnswerIds = result?.answers.map((answer) => answer.id);
 
   newResult.answers.forEach((answer) => {
-    if (answer.id in validAnswerIds == false) {
+    if (!validAnswerIds.includes(answer.id)) {
       throw new Error('Answer id is invalid');
     }
   });
