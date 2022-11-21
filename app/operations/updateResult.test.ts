@@ -65,4 +65,38 @@ describe('Update the result and the answers', () => {
       'Result id is invalid'
     );
   });
+  it('should error if result id is not found', async () => {
+    await prisma.question.createMany({
+      data: [
+        {
+          id: 99,
+          question: 'question 1',
+          value: 4,
+        },
+        {
+          id: 100,
+          question: 'question 2',
+          value: 4,
+        },
+        {
+          id: 101,
+          question: 'question 3',
+          value: 4,
+        },
+      ],
+    });
+
+    const newResult = {
+      id: 88,
+      answers: [
+        { id: 101, yes: true },
+        { id: 102, yes: true },
+        { id: 103, yes: false },
+      ],
+    };
+
+    await expect(updateResult(newResult)).rejects.toThrow(
+      'Result id not found'
+    );
+  });
 });
