@@ -4,7 +4,7 @@ import { describe, expect, it } from '@jest/globals';
 import { updateResult } from './updateResult';
 
 describe('Update the result and the answers', () => {
-  it('should error if result id is not right', async () => {
+  it('should error if invlaid answer id is found', async () => {
     await prisma.question.createMany({
       data: [
         {
@@ -57,15 +57,15 @@ describe('Update the result and the answers', () => {
       answers: [
         { id: 101, yes: true },
         { id: 102, yes: true },
-        { id: 103, yes: false },
+        { id: 104, yes: true },
       ],
     };
 
     await expect(updateResult(newResult)).rejects.toThrow(
-      'Result id is invalid'
+      'Answer id is invalid'
     );
   });
-  it('should error if result id is not found', async () => {
+  it('should error if result is not found', async () => {
     await prisma.question.createMany({
       data: [
         {
@@ -96,7 +96,7 @@ describe('Update the result and the answers', () => {
     };
 
     await expect(updateResult(newResult)).rejects.toThrow(
-      'Result id not found'
+      'Result is not found'
     );
   });
 });
