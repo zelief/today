@@ -26,7 +26,7 @@ export function Questions({
 
   const submitAnswers = async () => {
     const finalAnswers = result.answers.map((answer, index) => ({
-      answerId: answer.id,
+      id: answer.id,
       yes: answers[index],
     }));
 

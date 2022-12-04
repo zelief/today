@@ -1,9 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { updateResult } from '@app/operations/updateResult';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.status(200).json({ name: 'John Doe' });
+  const score = await updateResult(req.body);
+
+  res.status(200).json({ score });
 }

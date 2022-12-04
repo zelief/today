@@ -29,7 +29,6 @@ export async function updateResult(newResult: NewResult) {
     );
 
     if (!oldAnswer) {
-      console.log('masuk');
       throw new Error('Answer id is invalid');
     }
 
@@ -43,4 +42,6 @@ export async function updateResult(newResult: NewResult) {
   }
 
   await prisma.result.update({ where: { id: newResult.id }, data: { score } });
+
+  return score;
 }
