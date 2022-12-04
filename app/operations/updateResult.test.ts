@@ -131,7 +131,7 @@ describe('Update the result and the answers', () => {
 
     expect(resultAfter?.score).toBe(50); // score = sum of the yes answers' question's value divided by sum of questions' value in percent
     expect(resultAfter?.answers[0].yes).toBe(true);
-    expect(resultAfter?.answers[0].yes).toBe(true);
-    expect(resultAfter?.answers[0].yes).toBe(false);
+    expect(resultAfter?.answers[1].yes).toBe(true);
+    expect(resultAfter?.answers[2].yes).toBe(false);
   });
 });
