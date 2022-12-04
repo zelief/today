@@ -10,6 +10,7 @@
     "test": "dotenv -e .env.test jest",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev --name init ",
     "studio:test": "dotenv -e .env.test -- npx prisma studio",
+    "studio": "dotenv -e .env.local -- npx prisma studio",
     "ts": "node_modules/.bin/tsc --noEmit --watch "
   },
   "dependencies": {
