@@ -6,7 +6,7 @@ First, install the [dotenv-cli](https://www.npmjs.com/package/dotenv-cli) packag
 
 `yarn global add dotenv-cli`
 
-Create two databases, for local & test environment, the DBs name is up to you. You can use any database you want as long as Prisma supported it.
+Create two databases, for the local & test environment, the DBs name is up to you. You can use any database you want as long as Prisma supported it.
 
 Create two `.env` files, `.env.test` & `.env.local` and set the `DATABASE_URL` in each file with the corresponding [connection URLs](https://www.prisma.io/docs/reference/database-reference/connection-urls) like this:
 
@@ -30,7 +30,7 @@ yarn migrate
 yarn migrate:test
 ```
 
-Before you can use the app locally, you need to manually insert `questions` data first. Run `yarn studio` to run Prisma studio and inserting your questions.
+Before you can use the app locally, you need to manually insert `questions` data first. Run `yarn studio` to run Prisma studio and insert your questions.
 
 Run the app locally:
 
