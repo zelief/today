@@ -29,7 +29,7 @@ describe('Update the result and the answers', () => {
     });
   });
 
-  it('should error if invlaid answer id is found', async () => {
+  it('should error if invalid answer id is found', async () => {
     const result = await prisma.result.create({
       data: {
         score: 0,
@@ -70,6 +70,7 @@ describe('Update the result and the answers', () => {
       'Answer id is invalid'
     );
   });
+
   it('should error if result is not found', async () => {
     const newResult = {
       id: 88,
@@ -85,7 +86,7 @@ describe('Update the result and the answers', () => {
     );
   });
 
-  it.only('should save the score and answers correctly', async () => {
+  it('should save the score and answers correctly', async () => {
     const result = await prisma.result.create({
       data: {
         score: 0,
