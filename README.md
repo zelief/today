@@ -1,5 +1,11 @@
 This is a Next.js 13 app with Tailwindcss, Jest, and Prisma.
 
+## About the app
+
+This app will calculate your today's score by asking simple yes or no questions about today's activity or mood. For example: "Did you work out today?" or "Did you eat healthy today?".
+
+Because the value of activity or mood could be different from one another, each question could have a different weight to the final score.
+
 ## Getting Started
 
 First, install the [dotenv-cli](https://www.npmjs.com/package/dotenv-cli) package:
