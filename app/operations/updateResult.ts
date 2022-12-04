@@ -33,7 +33,7 @@ export async function updateResult(newResult: NewResult) {
     }
 
     if (newAnswer.yes) {
-      score += Math.round((oldAnswer.question.value / totalValues) * 100);
+      score += oldAnswer.question.value;
       await prisma.answer.update({
         where: { id: newAnswer.id },
         data: { yes: true },
@@ -41,7 +41,12 @@ export async function updateResult(newResult: NewResult) {
     }
   }
 
-  await prisma.result.update({ where: { id: newResult.id }, data: { score } });
+  const scoreInPercent = Math.round((score / totalValues) * 100);
 
-  return score;
+  await prisma.result.update({
+    where: { id: newResult.id },
+    data: { score: scoreInPercent },
+  });
+
+  return scoreInPercent;
 }
