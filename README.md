@@ -1,4 +1,4 @@
-This is a Next.js 13 app with Prisma.
+This is a Next.js 13 app with Tailwindcss, Jest, and Prisma.
 
 ## Getting Started
 
@@ -38,9 +38,8 @@ Run the app locally:
 yarn dev
 ```
 
-Run the test:
+Run the integration tests:
 
 ```bash
 yarn test
 ```
-
