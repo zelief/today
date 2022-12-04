@@ -11,6 +11,7 @@ export function Questions({
   const [questionIdx, setQuestionIdx] = useState(0);
   const [answers, setAnswers] = useState<Array<boolean>>([]);
   const [allAnswered, setAllAnswered] = useState(false);
+  const [score, setScore] = useState<number>();
 
   const answer = (isTrue: boolean) => {
     let newAnswer = answers;
@@ -30,17 +31,31 @@ export function Questions({
       yes: answers[index],
     }));
 
-    await fetch(`/api/result/${result.id}/update`, {
+    const res = await fetch(`/api/result/${result.id}/update`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: result.id, answers: finalAnswers }),
     });
+
+    const data = await res.json();
+
+    setScore(data.score);
   };
+
+  if (score) {
+    return (
+      <div>
+        <div className="text-center">
+          Your score: <span>{score}</span>
+        </div>
+      </div>
+    );
+  }
 
   if (allAnswered) {
     return (
       <div>
-        <div>All done!</div>
+        <div className="text-center mb-3">Submit answers?</div>
         <button
           onClick={submitAnswers}
           className="w-full py-2 items-center text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
