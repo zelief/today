@@ -1,9 +1,9 @@
 import { prisma } from '@app/db';
 import { beforeEach } from '@jest/globals';
 
-beforeEach(() => {
+beforeEach(async () => {
   const deleteAnswers = prisma.answer.deleteMany();
   const deleteResults = prisma.result.deleteMany();
   const deleteQuestions = prisma.question.deleteMany();
-  return prisma.$transaction([deleteAnswers, deleteResults, deleteQuestions]);
+  return await prisma.$transaction([deleteAnswers, deleteResults, deleteQuestions]);
 });
