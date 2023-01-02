@@ -16,17 +16,3 @@ services:
       MYSQL_PASSWORD: 'prisma'
       MYSQL_ROOT_PASSWORD: 'prisma'
       MYSQL_ROOT_HOST: '%'
-    healthcheck:
-      test:
-        [
-          'CMD',
-          'mysqladmin',
-          'ping',
-          '-hlocalhost',
-          '-uroot',
-          '-pprisma',
-          '-P3307',
-        ]
-      interval: 3s
-      timeout: 1s
-      retries: 15
