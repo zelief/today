@@ -2,19 +2,21 @@
   "name": "strive",
   "version": "0.1.0",
   "private": true,
+  "config": {
+    "testDB": "export DATABASE_URL=mysql://prisma:prisma@127.0.0.1:3307/strive_test"
+  },
   "scripts": {
-    "dev": "dotenv -e .env.local next dev --turbo",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "dotenv -e .env.test jest",
-    "test:full": "dotenv -e .env.test yarn docker:up && yarn migrate:test && yarn test",
-    "migrate": "dotenv -e .env.local -- npx prisma migrate dev --name init ",
+    "test": "$npm_package_config_testDB && jest --runInBand",
+    "test:full": "yarn docker:up && sh ./test.sh",
+    "migrate": "npx prisma migrate dev --name init ",
     "docker:up": "docker-compose up --wait --remove-orphans -d",
     "docker:down": "docker-compose down",
-    "migrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
-    "studio": "dotenv -e .env.local -- npx prisma studio",
-    "studio:test": "dotenv -e .env.test -- npx prisma studio",
+    "migrate:test": "$npm_package_config_testDB && npx prisma migrate deploy",
+    "studio": "npx prisma studio",
     "ts": "node_modules/.bin/tsc --noEmit --watch "
   },
   "dependencies": {
