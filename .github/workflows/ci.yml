@@ -29,7 +29,7 @@ jobs:
           MYSQL_USER: prisma
           MYSQL_PASSWORD: prisma
           MYSQL_ROOT_PASSWORD: prisma
-          MYSQL_ROOT_HOST: %
+          MYSQL_ROOT_HOST: '%'
         ports:
           # Maps tcp port 5432 on service container to the host
           - 3307:3306
