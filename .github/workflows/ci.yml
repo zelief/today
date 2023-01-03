@@ -18,12 +18,25 @@ jobs:
         os: [ubuntu-latest]
         node: [16]
 
+    services:
+      # Label used to access the service container
+      mysql:
+        # Docker Hub image
+        image: mysql:5.7
+        # Provide the env
+        env:
+          MYSQL_DATABASE: strive_test
+          MYSQL_USER: prisma
+          MYSQL_PASSWORD: prisma
+          MYSQL_ROOT_PASSWORD: prisma
+          MYSQL_ROOT_HOST: %
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 3307:3306
+
     steps:
       - name: Checkout
         uses: actions/checkout@master
-
-      - name: Run Docker Compose
-        uses: isbang/compose-action@v1.4.1
 
       - name: Setup node env
         uses: actions/setup-node@v2.1.2
