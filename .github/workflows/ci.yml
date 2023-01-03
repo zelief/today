@@ -22,6 +22,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
+      - name: Run Docker Compose
+        uses: isbang/compose-action@v1.4.1
+
       - name: Setup node env
         uses: actions/setup-node@v2.1.2
         with:
@@ -60,7 +63,4 @@ jobs:
         run: yarn tsc --noemit
 
       - name: Run tests
-        run: yarn test:full
-
-      - name: Remove db docker container
-        run: yarn docker:down
+        run: sh ./test.sh
